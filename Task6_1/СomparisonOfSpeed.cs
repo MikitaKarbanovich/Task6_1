@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,7 +87,7 @@ namespace Task6_1
             var watch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < 100000; i++)
             {
-                dictionary.Add(i,i);
+                dictionary.Add(i, i);
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -150,7 +151,7 @@ namespace Task6_1
         }
         public long SpeedOfStackAdd()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();  
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < 100000; i++)
             {
                 stack.Push(i);
@@ -164,7 +165,7 @@ namespace Task6_1
             var watch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < 10000; i++)
             {
-               int buf = stack.ElementAt(i);
+                int buf = stack.ElementAt(i);
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -197,7 +198,7 @@ namespace Task6_1
             var watch = System.Diagnostics.Stopwatch.StartNew();
             for (int i = 0; i < 10000; i++)
             {
-                int buf=sortedSet.ElementAt(i);
+                int buf = sortedSet.ElementAt(i);
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -247,5 +248,42 @@ namespace Task6_1
             var elapsedMs = watch.ElapsedMilliseconds;
             return elapsedMs;
         }
+        public void CreateOutputFile(List<string> output)
+        {
+            string path = string.Empty;
+            string folderName = string.Empty;
+            string keyboardInput = string.Empty;
+            string path_FolderName = string.Empty;
+            string path_FolderName_FileName = string.Empty;
+
+            System.Console.WriteLine("Enter the path, where you want to create the outputfile.");
+            keyboardInput = Console.ReadLine();
+            while (!Directory.Exists(keyboardInput))
+            {
+                Console.WriteLine("Bad path, try again.");
+                keyboardInput = Console.ReadLine();
+            }
+            path = keyboardInput;
+            string fileName = "MyNewFile.txt";
+            path_FolderName_FileName = System.IO.Path.Combine(path, fileName);
+            Console.WriteLine("Path to my file: {0}\n", path_FolderName_FileName);
+            if (!File.Exists(path_FolderName_FileName))
+            {
+                try
+                {
+                    File.WriteAllLines(path_FolderName_FileName, output.ToArray());
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("File \"{0}\" already exists.", fileName);
+                return;
+            }
+        }
+
     }
 }
